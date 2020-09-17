@@ -1,0 +1,12 @@
+name = "SabbatucciMACs"
+uuid = "326191e2-a302-4351-9716-4ad0b6ad7c71"
+authors = ["nritchie <nicholas.ritchie@nist.gov>"]
+version = "0.1.0"
+
+[deps]
+
+[compat]
+julia = "1.5.0"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
