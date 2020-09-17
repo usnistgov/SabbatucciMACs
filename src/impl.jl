@@ -112,7 +112,7 @@ function readdata(z::Int)
         if i == 3
           nsh = parse(Int, strip(l[2:6]))
         elseif i >= 7 && i <= 6 + nsh
-          sh = parse(Int, strip(l[4:5]))
+          sh = parse(Int, strip(l[3:4]))
           e = parse(Float64, l[19:31])
           ee[(z, sh)] = e
         elseif nsh != -1 && i == nsh + 9
@@ -144,19 +144,19 @@ function __init__()
 end
 
 """
-    eachelement(::Type{SabbatucciMAC})
+    eachelement()
 
 The range of available elements.
 """
 eachelement() = eachindex(MACData)
 
 """
-    eachedge(::Type{SabbatucciMAC}, z::Int)::Set{Integer}
+    eachedge(z::Int)::Set{Integer}
 
 Returns a set containing the shells for which there is an edge energy in the database
 for the specified element.
 """
-eachedge(z::Int) = Set{Integer}(filter(sh->haskey(EdgeData, (z, sh)), ,1:29))
+eachedge(z::Int) = Set{Integer}(filter(sh->haskey(EdgeData, (z, sh)), 1:29))
 
 """
     hasedge(::Type{SabbatucciMAC}, z::Int, shell::Int)::Bool
@@ -199,8 +199,10 @@ end
 
 The source of the edge energy data is Williams, G.P., 2011. Electron binding energies of the elements.
 In: Haynes, W.M., Lide, D.R. (Eds.), CRC Handbook of Chemistry and Physics, 91st edition CRC, Boca Raton, pp. 221–226.
+
+Throws an error if (z,sh) does not exist.
 """
-edgeenergy(z::Int, sh::Int)::Float64 = get(EdgeData, (z, sh), NaN64)
+edgeenergy(z::Int, sh::Int)::Float64 = EdgeData[(z, sh)]
 
 function mac(z::Int, energy::Float64)::Float64
   energies, macs = MACData[z]
